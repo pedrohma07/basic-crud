@@ -4,9 +4,9 @@ import com.example.basiccrud.domain.user.User;
 import com.example.basiccrud.domain.user.dtos.CreateUserDTO;
 import com.example.basiccrud.domain.user.dtos.ReturnUserDTO;
 import com.example.basiccrud.domain.user.dtos.UpdateUserDTO;
+import com.example.basiccrud.exceptions.NotFoundException;
 import com.example.basiccrud.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class UserService {
     public ReturnUserDTO getUser(String id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
-            return null;
+            throw new NotFoundException("User not found");
         }
         User user = optionalUser.get();
         return new ReturnUserDTO(
