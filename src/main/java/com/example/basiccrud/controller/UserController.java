@@ -5,7 +5,9 @@ import com.example.basiccrud.domain.user.dtos.CreateUserDTO;
 import com.example.basiccrud.domain.user.dtos.ReturnUserDTO;
 import com.example.basiccrud.domain.user.dtos.UpdateUserDTO;
 import com.example.basiccrud.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
+    @Autowired
     private final UserService userService;
 
-    // Post method to create a new user
     @PostMapping
-    public String createUser(@RequestBody CreateUserDTO createUserDTO) {
-        userService.createUser(createUserDTO);
-        return "User created";
+    public ResponseEntity<CreateUserDTO> createUser(@Valid @RequestBody CreateUserDTO createUserDTO) {
+        System.out.println("createUserDTO = " + createUserDTO);
+        return ResponseEntity.ok(this.userService.createUser(createUserDTO));
     }
 
     @GetMapping
@@ -38,15 +40,15 @@ public class UserController {
     }
 
 
-    // Add a new method to update a user
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody UpdateUserDTO updateUserDTO) {
         this.userService.updateUser(id, updateUserDTO);
         return ResponseEntity.ok("User updated");
     }
 
-    // Add a new method to delete a user
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<String> deleteUser(@PathVariable String id) {
         this.userService.deleteUser(id);
         return ResponseEntity.ok("User deleted");

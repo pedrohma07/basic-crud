@@ -1,6 +1,7 @@
 package com.example.basiccrud.domain.user.dtos;
 
-import java.util.Date;
+import com.example.basiccrud.domain.enums.UserRole;
 
-public record ReturnUserDTO(String id, String name, String email, String role) {
+
+public record ReturnUserDTO(String id, String name, String email, UserRole role) {
 }

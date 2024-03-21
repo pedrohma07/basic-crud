@@ -18,9 +18,10 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User createUser(CreateUserDTO createUserDTO) {
+    public CreateUserDTO createUser(CreateUserDTO createUserDTO) {
         User user = new User(createUserDTO.name(), createUserDTO.email(), createUserDTO.password(), createUserDTO.role());
-        return userRepository.save(user);
+        userRepository.save(user);
+        return createUserDTO;
     }
 
 

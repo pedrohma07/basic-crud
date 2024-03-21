@@ -1,5 +1,6 @@
 package com.example.basiccrud.domain.user;
 
+import com.example.basiccrud.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,11 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private String role;
+    private UserRole role;
     private Date createdAt;
     private Date updatedAt;
 
-    public User(String name, String email, String password, String role) {
+    public User(String name, String email, String password, UserRole role) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -44,6 +45,7 @@ public class User {
         User user = (User) o;
         return getId() != null && Objects.equals(getId(), user.getId());
     }
+
 
     @Override
     public final int hashCode() {
