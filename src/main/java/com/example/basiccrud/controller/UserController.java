@@ -42,4 +42,11 @@ public class UserController {
         this.userService.updateUser(id, updateUserDTO);
         return ResponseEntity.ok("User updated");
     }
+
+    // Add a new method to delete a user
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+        this.userService.deleteUser(id);
+        return ResponseEntity.ok("User deleted");
+    }
 }
