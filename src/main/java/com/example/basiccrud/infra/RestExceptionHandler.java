@@ -21,4 +21,5 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         RestErrorMessage threatResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(threatResponse);
     }
+
 }

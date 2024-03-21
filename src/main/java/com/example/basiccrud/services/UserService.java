@@ -54,7 +54,7 @@ public class UserService {
     public void updateUser(String id, UpdateUserDTO updateUserDTO) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
-            return;
+            throw new NotFoundException("User not found");
         }
         User user = optionalUser.get();
 
@@ -70,7 +70,7 @@ public class UserService {
     public void deleteUser(String id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
-            return;
+            throw new NotFoundException("User not found");
         }
         userRepository.delete(optionalUser.get());
     }
