@@ -8,7 +8,6 @@ public class BasicCrudApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BasicCrudApplication.class, args);
-		System.out.println("Teste");
 	}
 
 }
