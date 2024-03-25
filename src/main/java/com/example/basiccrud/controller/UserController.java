@@ -42,8 +42,6 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ReturnUserDTO> getUser(@PathVariable String id) {
-
-
         return ResponseEntity.ok(this.userService.getUser(id));
     }
 
@@ -55,15 +53,15 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody UpdateUserDTO updateUserDTO) {
+    public ResponseEntity<Void> updateUser(@PathVariable String id, @RequestBody UpdateUserDTO updateUserDTO) {
         this.userService.updateUser(id, updateUserDTO);
-        return ResponseEntity.ok("User updated");
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         this.userService.deleteUser(id);
-        return ResponseEntity.ok("User deleted");
+        return ResponseEntity.noContent().build();
     }
 }
