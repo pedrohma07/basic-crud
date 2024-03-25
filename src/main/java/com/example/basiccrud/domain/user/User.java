@@ -20,6 +20,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
+    // this email is unique
+    @Column(nullable = false, unique = true)
     private String email;
     private String password;
     private UserRole role;

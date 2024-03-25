@@ -50,6 +50,20 @@ public class UserService {
         );
     }
 
+    public ReturnUserDTO getUserByEmail(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        if (optionalUser.isPresent()){
+            User user = optionalUser.get();
+            return new ReturnUserDTO(
+                    user.getId(),
+                    user.getName(),
+                    user.getEmail(),
+                    user.getRole()
+            );
+        }
+        return null;
+    }
 
     public void updateUser(String id, UpdateUserDTO updateUserDTO) {
         Optional<User> optionalUser = userRepository.findById(id);

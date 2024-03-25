@@ -1,11 +1,13 @@
 package com.example.basiccrud.infra;
 
+import com.example.basiccrud.exceptions.EmailAlreadyExistsException;
 import com.example.basiccrud.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -16,9 +18,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(threatResponse);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    private ResponseEntity<RestErrorMessage> runtimeErrorHandler(RuntimeException exception) {
-        RestErrorMessage threatResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(threatResponse);
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    private ResponseEntity<RestErrorMessage> emailAlreadyExistsHandler(EmailAlreadyExistsException exception) {
+        RestErrorMessage threatResponse = new RestErrorMessage(HttpStatus.CONFLICT.value(), exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(threatResponse);
     }
+
+
+//    @ExceptionHandler(RuntimeException.class)
+//    private ResponseEntity<RestErrorMessage> runtimeErrorHandler(RuntimeException exception) {
+//        RestErrorMessage threatResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), exception.getMessage());
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(threatResponse);
+//    }
 }
