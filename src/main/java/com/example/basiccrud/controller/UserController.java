@@ -5,6 +5,7 @@ import com.example.basiccrud.domain.user.dtos.CreateUserDTO;
 import com.example.basiccrud.domain.user.dtos.ReturnUserDTO;
 import com.example.basiccrud.domain.user.dtos.UpdateUserDTO;
 import com.example.basiccrud.exceptions.EmailAlreadyExistsException;
+import com.example.basiccrud.exceptions.NotFoundException;
 import com.example.basiccrud.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +49,24 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     public ResponseEntity<ReturnUserDTO> getUserByEmail(@PathVariable String email) {
-        return ResponseEntity.ok(this.userService.getUserByEmail(email));
+        ReturnUserDTO user = this.userService.getUserByEmail(email);
+        if(user == null){
+            throw new NotFoundException("User not found");
+        }
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> updateUser(@PathVariable String id, @RequestBody UpdateUserDTO updateUserDTO) {
         this.userService.updateUser(id, updateUserDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/email/{email}")
+    @Transactional
+    public ResponseEntity<Void> updateUserByEmail(@PathVariable String email, @RequestBody UpdateUserDTO updateUserDTO) {
+        this.userService.updateUserByEmail(email, updateUserDTO);
         return ResponseEntity.noContent().build();
     }
 

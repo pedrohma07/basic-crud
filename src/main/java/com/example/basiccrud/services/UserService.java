@@ -29,7 +29,7 @@ public class UserService {
 
 
     public List<ReturnUserDTO> getAllUsers(Integer numPage, Integer numRegisters){
-        // Example Pageable pageRequest = PageRequest.of(0, 10);
+        // PageRequest initial page is 0
         Pageable pageRequest = PageRequest.of( numPage, numRegisters);
         Page<User> users = userRepository.findAll(pageRequest);
         return users.stream()
@@ -78,7 +78,21 @@ public class UserService {
         User user = optionalUser.get();
 
         user.setName(updateUserDTO.name() != null ? updateUserDTO.name() : user.getName());
-        user.setEmail(updateUserDTO.email() != null ? updateUserDTO.email() : user.getEmail());
+        user.setPassword(updateUserDTO.password() != null ? updateUserDTO.password() : user.getPassword());
+        user.setRole(updateUserDTO.role() != null ? updateUserDTO.role() : user.getRole());
+        user.setUpdatedAt(new java.util.Date());
+
+        userRepository.save(user);
+    }
+
+    public void updateUserByEmail(String email, UpdateUserDTO updateUserDTO) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+            throw new NotFoundException("User not found");
+        }
+        User user = optionalUser.get();
+
+        user.setName(updateUserDTO.name() != null ? updateUserDTO.name() : user.getName());
         user.setPassword(updateUserDTO.password() != null ? updateUserDTO.password() : user.getPassword());
         user.setRole(updateUserDTO.role() != null ? updateUserDTO.role() : user.getRole());
         user.setUpdatedAt(new java.util.Date());
