@@ -36,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping
-    public List<ReturnUserDTO> getAllUsers() {
-        return this.userService.getAllUsers();
+    public List<ReturnUserDTO> getAllUsers(@RequestParam Integer numPage, Integer numRegisters) {
+        return this.userService.getAllUsers(numPage, numRegisters);
     }
 
     @GetMapping("/{id}")

@@ -7,6 +7,9 @@ import com.example.basiccrud.domain.user.dtos.UpdateUserDTO;
 import com.example.basiccrud.exceptions.NotFoundException;
 import com.example.basiccrud.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +28,10 @@ public class UserService {
     }
 
 
-    public List<ReturnUserDTO> getAllUsers(){
-        List<User> users = userRepository.findAll();
+    public List<ReturnUserDTO> getAllUsers(Integer numPage, Integer numRegisters){
+        // Example Pageable pageRequest = PageRequest.of(0, 10);
+        Pageable pageRequest = PageRequest.of( numPage, numRegisters);
+        Page<User> users = userRepository.findAll(pageRequest);
         return users.stream()
                 .map(user -> new ReturnUserDTO(
                         user.getId(),
